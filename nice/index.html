@@ -1,0 +1,518 @@
+<!DOCTYPE html> 
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ретушь на памятник</title>
+	<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="description" content="Ретушь на памятник: профессиональные услуги по улучшению фотографий для гравировки. Индивидуальный подход и высокое качество.">
+<meta name="keywords" content="ретушь, фотографии, памятники, гравировка, улучшение изображений,фотошоп, восстановление фото ретушь, монтаж, цветокоррекция и многое другое">
+<meta name="author" content="Ваше Имя или Название Компании">
+<meta name="publisher" content="Название Компании">
+<meta property="og:title" content="Ретушь на памятник">
+<meta property="og:description" content="Профессиональные услуги по ретуши фотографий для памятников. Высокое качество и индивидуальный подход.">
+<meta property="og:image" content="https://ваш_сайт/изображение.jpg">
+<meta property="og:url" content="https://ваш_сайт">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ретушь на памятник">
+<meta name="twitter:description" content="Качественные услуги по ретуши фотографий для памятников. Индивидуальный подход и профессионализм.">
+<meta name="twitter:image" content="https://ваш_сайт/изображение.jpg">
+<meta name="twitter:url" content="https://ваш_сайт">
+<meta name="language" content="ru">
+<meta name="geo.region" content="RU">
+<meta name="geo.placename" content="Россия">
+ <!-- Широта и долгота для указания местоположения -->
+<meta name="rating" content="general">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="no-referrer">
+
+    
+    <!-- Подключение шрифтов Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon.png" type="image/png"> <!-- Иконка сайта -->
+    
+    <style>
+	/* Анимация для символа прокрутки */
+@keyframes scroll-animation {
+    0% {
+        transform: translateY(0); /* Начальная позиция */
+    }
+    50% {
+        transform: translateY(20px); /* Движение вниз на 20 пикселей */
+    }
+    100% {
+        transform: translateY(0); /* Возвращение в начальную позицию */
+    }
+}
+
+/* Стили для символа прокрутки */
+#scroll-indicator {
+    position: fixed;
+    bottom: 20px; /* Отступ от низа */
+    left: 50%;
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+    font-size: 2em;
+    color: white;
+    opacity: 1; /* Начальная прозрачность */
+    animation: scroll-animation 1s infinite; /* Применяем анимацию */
+    transition: opacity 0.5s; /* Плавный переход для прозрачности */
+}
+
+
+/* Анимация для перемещения символа сверху вниз */
+@keyframes scrollDown {
+    0% { transform: translate(-50%, 0); } /* Начальная позиция */
+    100% { transform: translate(-50%, 20px); } /* Конечная позиция */
+}
+
+/* Анимация для расплывчатости символа */
+@keyframes fadeOut {
+    0% { opacity: 1; } /* Полная непрозрачность */
+    100% { opacity: 0.5; } /* Полупрозрачность */
+}
+
+        /* Общие стили */
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1, h2 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            color: #ff5555;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left; /* Текст по левому краю */
+        }
+
+        /* Центрирование текста в блоке */
+        #typed-text {
+            display: block;
+            margin: 40px auto 0;
+            text-align: left; /* Выравнивание по левой стороне */
+            max-width: 800px;
+        }
+
+        /* Шапка сайта */
+        header {
+            background-color: #222;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-left: 20px;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s;
+        }
+
+        header nav a:hover {
+            color: #ff5555;
+        }
+
+        /* Контейнер для всех секций */
+        .container {
+            padding: 120px 20px 20px;
+        }
+
+        /* Секция примеров работ с закруглением углов */
+        .portfolio {
+            position: relative;
+            max-width: 100%;
+            height: 500px;
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 20%; /* Закругление углов на 20% */
+        }
+
+        .portfolio img {
+            position: absolute;
+            width: 80%;
+            height: auto;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .portfolio img.active {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* Эффект наведения на изображения */
+        .portfolio img:hover {
+            transform: scale(1.1); /* Увеличение изображения при наведении */
+            transition: transform 0.3s ease; /* Плавный переход */
+        }
+
+        /* Секция с контактами и ссылками */
+        .contact {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact a {
+            color: #ff5555;
+            text-decoration: none;
+            font-size: 1.5em;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .contact a:hover {
+            color: #fff;
+        }
+
+        /* Футер */
+        footer {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+            display: flex; /* Flexbox для выравнивания элементов */
+            justify-content: center; /* Центрирование текста */
+            align-items: center; /* Вертикальное выравнивание по центру */
+            gap: 10px; /* Отступ между текстом и изображением */
+        }
+
+        footer p {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        footer img {
+            width: 40px; /* Ширина логотипа */
+            height: auto; /* Автоматическая высота для сохранения пропорций */
+        }
+
+        /* Новый текст перед футером */
+        .order-info {
+            text-align: center;
+            margin: 40px 0;
+            font-size: 1.2em;
+        }
+
+        /* Новый стиль для текста в секции контактов */
+        .contact-message {
+            font-size: 1.5em;
+            animation: glow 0.8s infinite alternate; /* Ускорено до 0.8 секунд */
+            text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;
+        }
+
+        /* Анимация для появления элементов */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Анимация светящегося текста */
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px white, 0 0 10px white, 0 0 15px white;
+            }
+            to {
+                text-shadow: 0 0 15px white, 0 0 30px white, 0 0 50px white;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Медиазапросы для адаптации под мобильные устройства */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .portfolio img {
+                width: 100%;
+                height: auto;
+            }
+
+            header nav a {
+                font-size: 1em;
+                margin-left: 10px;
+            }
+
+            footer img {
+                width: 30px; /* Уменьшение ширины логотипа на мобильных устройствах */
+            }
+        }
+
+        /* Стили для нового прямоугольника */
+   .contact-button {
+    position: fixed;
+    top: 70px; /* Теперь прямоугольник ниже на 5px */
+    right: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent); /* Уменьшение ширины луча */
+    background-size: 200% 100%; /* Размер градиента для анимации */
+    animation: light 2s linear infinite; /* Применение анимации */
+    color: white;
+    padding: 15px 25px;
+    border-radius: 25px; /* Закругление углов */
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    text-decoration: none;
+    z-index: 2000; /* Повышенный уровень для отображения поверх других элементов */
+    transition: background-color 0.3s;
+}
+
+@keyframes light {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+
+        .contact-button:hover {
+            background-color: #ff5555; /* Изменение цвета при наведении */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header>
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#services">Услуги</a>
+            <a href="#portfolio">Примеры работ</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+    </header>
+
+    <!-- Кнопка для контакта -->
+    <a href="https://t.me/ваш_логин" target="_blank" class="contact-button">Нажми сюда для заказа</a>
+
+    <!-- Заголовок сайта -->
+    <div class="container">
+        <h1>Ретушь на памятник</h1>
+
+        <!-- Описание услуг -->
+        <section id="services">
+            <h2>Наши услуги</h2>
+            <p id="typed-text"></p> <!-- Текст, который будет печататься -->
+        </section>
+
+        <!-- Примеры работ -->
+        <section class="portfolio fade-in" id="portfolio">
+            <img src="1.jpg" alt="Пример работы 1" class="active">
+            <img src="2.jpg" alt="Пример работы 2">
+            <img src="3.jpg" alt="Пример работы 3">
+            <img src="4.jpg" alt="Пример работы 4">
+            <img src="5.jpg" alt="Пример работы 5">
+            <img src="6.jpg" alt="Пример работы 6">
+            <img src="7.jpg" alt="Пример работы 7">
+            <img src="8.jpg" alt="Пример работы 8">
+            <img src="9.jpg" alt="Пример работы 9">
+            <img src="10.jpg" alt="Пример работы 10">
+            <img src="11.jpg" alt="Пример работы 11">
+            <img src="12.jpg" alt="Пример работы 12">
+            <img src="1.png" alt="Пример работы 1">
+            <img src="2.png" alt="Пример работы 2">
+            <img src="3.png" alt="Пример работы 3">
+            <img src="4.png" alt="Пример работы 4">
+            <img src="5.png" alt="Пример работы 5">
+        </section>
+
+        <!-- Новый текст перед футером -->
+        <div class="order-info">
+            <p>Заказ оформляется через Telegram. Напишите нам в чате для получения консультации.</p>
+        </div>
+
+        <!-- Контакты -->
+        <section class="contact fade-in" id="contact">
+            <h2>Свяжитесь с нами</h2>
+            <p class="contact-message">Мы готовы ответить на ваши вопросы и принять заказы.</p>
+            <a href="https://t.me/ваш_логин" target="_blank">Напишите нам в Telegram</a>
+        </section>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <p>© 2024 Ретушь на памятник. Все права защищены.</p>
+        <img src="logo.png" alt="Логотип" />
+    </footer>
+	<!-- Символ для прокрутки -->
+<div id="scroll-indicator" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 2em; color: white; opacity: 1; transition: opacity 0.5s;">
+    ∨
+</div>
+
+    <script>
+        // Задержка перед загрузкой страницы
+        document.body.style.opacity = "0";
+        window.addEventListener("load", function() {
+            document.body.style.opacity = "1";
+        });
+
+        // Эффект появления для элементов
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = {
+            threshold: 0,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('appear');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Слайдер для изображений
+        const images = document.querySelectorAll('.portfolio img');
+        let currentIndex = 0;
+
+        function changeImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+
+        setInterval(changeImage, 3000); // Перелистывание каждые 3 секунды
+
+        // Печатание текста
+        const fullText = "Мы предоставляем услуги по ретуши, улучшению качества и подготовке фотографий для гравировки на памятниках. Мы работаем с различными типами фотографий, включая: семейные фотографии, свадебные снимки, портреты, групповые фото, памятные события, детские фотографии и фотографии домашних животных. Благодаря нашему опыту и использованию современных технологий, мы обеспечиваем высокое качество работы, сохраняя важные моменты и воспоминания ваших близких на долгие годы. Мы предлагаем индивидуальный подход к каждому клиенту и готовы работать с любыми запросами — от простого восстановления изображения до полного изменения и адаптации для нанесения на памятник.";
+        let currentChar = 0;
+        const typingSpeed = 3; // Ускоренная скорость печатания (мс)
+
+        function typeText() {
+            if (currentChar < fullText.length) {
+                document.getElementById('typed-text').textContent += fullText[currentChar];
+                currentChar++;
+                setTimeout(typeText, typingSpeed); // Печатать следующий символ через интервал
+            }
+        }
+
+        // Запуск печатания текста сразу после загрузки страницы
+        window.onload = typeText;
+
+        // Закругление углов изображений для jpg и png
+        const imagesToRound = document.querySelectorAll('.portfolio img');
+        imagesToRound.forEach(image => {
+            const src = image.src.toLowerCase();
+            if (src.endsWith('.jpg') || src.endsWith('.png')) {
+                image.style.borderRadius = '40%'; // Закругляем углы для jpg и png
+            }
+        });
+// Получаем ссылку на символ прокрутки
+const scrollIndicator = document.getElementById('scroll-indicator');
+const sections = document.querySelectorAll('section');
+const offset = 20; // Смещение, чтобы учесть фиксированный хедер
+
+// Функция для проверки, когда символ должен исчезнуть
+function checkScrollIndicator() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollPosition = window.scrollY + windowHeight;
+
+    // Если прокрутка достигла нижней части документа
+    if (scrollPosition >= documentHeight - offset) {
+        scrollIndicator.style.opacity = '0'; // Устанавливаем прозрачность в 0
+    } else {
+        scrollIndicator.style.opacity = '1'; // Устанавливаем прозрачность в 1
+    }
+}
+
+// Прокрутка к следующему разделу
+scrollIndicator.addEventListener('click', () => {
+    let currentSection = window.scrollY + window.innerHeight / 2; // Определяем текущую секцию
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            currentSection = section; // Устанавливаем текущую секцию
+        }
+    });
+
+    const nextSection = currentSection.nextElementSibling;
+    if (nextSection) {
+        const sectionTop = nextSection.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({
+            top: sectionTop,
+            behavior: 'smooth' // Плавная прокрутка
+        });
+    }
+});
+
+// Прокрутка на 100 пикселей вниз при клике на символ
+scrollIndicator.addEventListener('click', () => {
+    const currentScrollY = window.scrollY; // Текущая позиция прокрутки
+    const newScrollY = currentScrollY + 100; // Новая позиция прокрутки на 100 пикселей вниз
+
+    // Прокручиваем страницу до новой позиции
+    window.scrollTo({
+        top: newScrollY,
+        behavior: 'smooth' // Плавная прокрутка
+    });
+});
+
+// Добавляем слушатель события прокрутки
+window.addEventListener('scroll', checkScrollIndicator);
+
+// Инициализация: проверяем начальное состояние при загрузке страницы
+checkScrollIndicator();
+
+
+
+    </script>
+</body>
+</html>
