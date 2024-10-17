@@ -1,0 +1,548 @@
+<!DOCTYPE html>   
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Dice Game</title>
+	
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .chat-container {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            width: 30%;
+            height: 70%; /* Устанавливаем высоту контейнера для сообщений */
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto; /* Прокрутка, если сообщений слишком много */
+        }
+        .message {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+            display: inline-block;
+            animation: fadeIn 0.5s;
+        }
+        .user-message {
+            background-color: #b3d7ff; /* Синие облачки для пользователя */
+            align-self: flex-end;
+        }
+        .other-message {
+            background-color: #e0e0e0; /* Серые облачки для других пользователей */
+            align-self: flex-start;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .button {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            font-size: 24px;
+        }
+        .number {
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            color: white;
+        }
+        .input-container {
+            display: flex;
+            justify-content: flex-start;
+            position: absolute;
+            bottom: 20%; /* Увеличиваем отступ вниз на 10% */
+            left: 10%;
+            width: 30%;
+        }
+        .input-message {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 5px; /* Отступ справа */
+            box-sizing: border-box; /* Чтобы учесть паддинг и бордер */
+        }
+        .send-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: blue; /* Цвет кнопки "Отправить" */
+            color: white;
+            border: 2px solid #0056b3; /* Граница кнопки */
+            border-radius: 5px;
+            cursor: pointer;
+            box-sizing: border-box; /* Чтобы учесть бордер */
+        }
+        .send-button:hover {
+            background-color: #0056b3; /* Изменение цвета при наведении */
+        }
+        .settings-panel {
+            position: absolute;
+            top: 5%;
+            left: 10%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            display: none; /* Скрываем по умолчанию */
+            z-index: 10; /* Слой выше остальных элементов */
+        }
+        .settings-button {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 11; /* Слой выше остальных элементов */
+        }
+        .nickname-input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 5px;
+        }
+        .nickname-button {
+            padding: 5px 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .nickname {
+            font-size: 12px; /* Размер шрифта для ника */
+            color: rgba(0, 0, 0, 0.5); /* Полупрозрачный цвет для ника */
+            margin-bottom: 5px; /* Отступ снизу для разделения ника и сообщения */
+        }
+    </style>
+</head>
+<body>
+    <button class="settings-button" onclick="toggleSettings()">⚙️</button>
+    <div class="settings-panel" id="settings-panel">
+        <input type="text" class="nickname-input" id="nickname-input" placeholder="Введите ваш ник" />
+        <button class="nickname-button" onclick="setNickname()">Сделать ник</button>
+        <button class="nickname-button" onclick="toggleSettings()">Свернуть</button>
+    </div>
+    
+    <div class="result" id="result">Результат: -</div>
+    <div class="number" id="number">-</div>
+    <button class="button" onclick="rollDice()">Бросить</button>
+
+    <!-- Окно для чата -->
+    <div class="chat-container" id="chat-container"></div>
+    
+    <div class="input-container">
+        <input type="text" class="input-message" id="message-input" placeholder="Введите сообщение..." onkeydown="checkEnter(event)" disabled>
+        <button class="send-button" onclick="sendMessage()" disabled>Отправить</button>
+    </div>
+
+    <!-- Подключаем Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer, dice, isRolling = false;
+        const resultElement = document.getElementById('result');
+        const numberElement = document.getElementById('number');
+        const chatContainer = document.getElementById('chat-container');
+        const messageInput = document.getElementById('message-input');
+        const settingsPanel = document.getElementById('settings-panel');
+        let nickname = '';
+
+        // Инициализация сцены
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Создание кубика
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const materials = [
+                new THREE.MeshBasicMaterial({ map: createDiceFace(1) }),
+                new THREE.MeshBasicMaterial({ map: createDiceFace(2) }),
+                new THREE.MeshBasicMaterial({ map: createDiceFace(3) }),
+                new THREE.MeshBasicMaterial({ map: createDiceFace(4) }),
+                new THREE.MeshBasicMaterial({ map: createDiceFace(5) }),
+                new THREE.MeshBasicMaterial({ map: createDiceFace(6) }),
+            ];
+            dice = new THREE.Mesh(geometry, materials);
+            scene.add(dice);
+
+            camera.position.z = 3;
+
+            animate();
+        }
+
+        // Создание текстур для граней кубика
+function createDiceFace(number) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256;
+    canvas.height = 256;
+    const context = canvas.getContext('2d');
+    context.fillStyle = 'white';
+    context.fillRect(0, 0, 256, 256);
+    context.fillStyle = 'black';
+
+    // Рисуем точки в зависимости от номера стороны
+    const dotPositions = [
+        [{ x: 128, y: 128 }], // 1 точка в центре
+        [{ x: 64, y: 64 }, { x: 192, y: 192 }], // 2 точки по диагонали
+        [{ x: 64, y: 64 }, { x: 128, y: 128 }, { x: 192, y: 192 }], // 3 точки
+        [{ x: 64, y: 64 }, { x: 64, y: 192 }, { x: 192, y: 64 }, { x: 192, y: 192 }], // 4 точки
+        [{ x: 64, y: 64 }, { x: 64, y: 192 }, { x: 192, y: 64 }, { x: 192, y: 192 }, { x: 128, y: 128 }], // 5 точек
+        [{ x: 64, y: 64 }, { x: 64, y: 128 }, { x: 64, y: 192 }, { x: 192, y: 64 }, { x: 192, y: 128 }, { x: 192, y: 192 }] // 6 точек
+    ];
+
+    dotPositions[number - 1].forEach(pos => {
+        context.beginPath();
+        context.arc(pos.x, pos.y, 20, 0, 2 * Math.PI);
+        context.fill();
+    });
+
+    // Добавьте текст с номером
+    context.fillStyle = 'red'; // Цвет для текста
+    context.font = 'bold 24px Arial'; // Устанавливаем шрифт и размер
+    context.fillText(number, 200, 40); // Рисуем номер в правом верхнем углу
+
+    return new THREE.CanvasTexture(canvas);
+}
+
+
+        // Анимация
+        function animate() {
+            requestAnimationFrame(animate);
+            if (!isRolling) {
+                dice.rotation.x += 0.01;
+                dice.rotation.y += 0.01;
+            }
+            renderer.render(scene, camera);
+        }
+
+  // Бросить кубик
+function rollDice() {
+    if (isRolling) return;
+    isRolling = true;
+    numberElement.textContent = "-";
+    resultElement.textContent = "Результат: ...";
+    let duration = 5000; // длительность анимации
+    let start = null;
+    const targetSide = Math.floor(Math.random() * 6) + 1;
+
+    function animateRoll(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const t = progress / duration;
+
+        // Плавная анимация вращения
+        dice.rotation.x = Math.PI * 2 * t * 5 + Math.random();
+        dice.rotation.y = Math.PI * 2 * t * 5 + Math.random();
+
+        if (progress < duration) {
+            requestAnimationFrame(animateRoll);
+        } else {
+            setFinalRotation(targetSide);
+            resultElement.textContent = "Результат: " + targetSide;
+            // Показать число через 5 секунд
+            setTimeout(() => {
+                isRolling = false; // Возобновляем вращение
+            }, 5000); // Пауза на 5 секунд перед завершением
+        }
+    }
+    requestAnimationFrame(animateRoll);
+}
+
+
+        // Установка финальной ориентации кубика
+function setFinalRotation(side) {
+    const rotations = {
+        5: { x: 0, y: 0 }, // 5 на верхней стороне
+        3: { x: Math.PI / 2, y: 0 }, // 3 на верхней стороне
+        6: { x: Math.PI, y: 0 }, // 6 на верхней стороне
+        4: { x: -Math.PI / 2, y: 0 }, // 4 на верхней стороне
+        2: { x: 0, y: Math.PI / 2 }, // 2 на верхней стороне
+        1: { x: 0, y: -Math.PI / 2 } // 1 на верхней стороне
+    };
+    
+    dice.rotation.x = rotations[side].x;
+    dice.rotation.y = rotations[side].y;
+
+    // Обновление числа на верхней грани куба
+    numberElement.textContent = side; // Установка числа на верхней грани
+}
+
+      // Отправка сообщения
+function sendMessage() {
+    const messageText = messageInput.value.trim();
+    if (!messageText) return;
+    if (!nickname) {
+        alert("Пожалуйста, сначала установите свой ник.");
+        return;
+    }
+
+    // Добавление сообщения в чат
+    const fullMessage = `${nickname}: ${messageText}`;
+    addMessage(fullMessage, 'user');
+
+    // Отправка сообщения на сервер
+    fetch('save_message.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: fullMessage }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'error') {
+            console.error(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка при отправке сообщения:', error);
+    });
+
+    // Очистка поля ввода
+    messageInput.value = ''; 
+    messageInput.focus(); // Сохранение фокуса на поле ввода
+}
+
+
+        // Проверка нажатия клавиши "Enter"
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Отменяем стандартное поведение Enter (перенос строки)
+                sendMessage();
+            }
+        }
+
+        // Добавление сообщения в чат
+        function addMessage(text, type) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type === 'user' ? 'user-message' : 'other-message'}`;
+
+            // Создание элемента для ника
+            const nicknameElement = document.createElement('div');
+            nicknameElement.className = 'nickname';
+            nicknameElement.textContent = text.split(':')[0]; // Извлекаем ник
+            messageElement.appendChild(nicknameElement);
+
+            // Создание элемента для сообщения
+            const messageTextElement = document.createElement('div');
+            messageTextElement.textContent = text.split(':')[1]; // Извлекаем текст сообщения
+            messageElement.appendChild(messageTextElement);
+
+            chatContainer.appendChild(messageElement);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Прокрутка вниз
+        }
+
+        // Установка ника
+        function setNickname() {
+            const input = document.getElementById('nickname-input');
+            const newNickname = input.value.trim();
+            if (!newNickname) {
+                alert("Ник не может быть пустым.");
+                return;
+            }
+            nickname = newNickname;
+            messageInput.disabled = false; // Разрешаем отправку сообщений
+            document.querySelector('.send-button').disabled = false; // Разрешаем кнопку отправки
+            alert(`Ваш ник установлен: ${nickname}`);
+            toggleSettings(); // Закрываем панель настроек
+        }
+
+        // Переключение видимости панели настроек
+        function toggleSettings() {
+            settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Запуск сцены
+        init();
+		// Создание панели справа
+const sidePanel = document.createElement('div');
+sidePanel.style.position = 'absolute';
+sidePanel.style.top = '10%';
+sidePanel.style.right = '5%';
+sidePanel.style.width = '200px';
+sidePanel.style.backgroundColor = 'white';
+sidePanel.style.borderRadius = '10px';
+sidePanel.style.padding = '10px';
+sidePanel.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+sidePanel.style.display = 'none'; // Скрыто по умолчанию
+document.body.appendChild(sidePanel);
+
+// Опции для каждой цифры
+const optionsMap = {
+  1: [
+        "Поиграть в Геншин",
+        "Обниматься",
+        "Пожать руки",
+        "Поиграть в Хонкай",
+        "Посмотреть аниме",
+        "Погладить",
+        "Сделать массаж",
+        "Поднять",
+        "Отжаться 1 раз",
+        "Присесть 1 раз"
+    ],
+    2: [
+        "Присесть 10 раз",
+        "Сделать рисовашки",
+        "Сделать смех",
+        "Сделать щелчек рукой",
+        "Сходить руки помыть",
+        "Протереть рукой стол",
+        "Протереть тряпкой стол",
+        "Обнять ногу",
+        "Сделать кувырок",
+        "Сделать татуху на руке"
+    ],
+    3: [
+        "Расчесать волосы",
+        "Сломать ручку или карандаш",
+        "Сказать 'ня'",
+        "Сказать 'я люблю тебя'",
+        "Сказать 'я тебя обожаю'",
+        "Сказать 'выходи за меня'",
+        "Сказать 'привет'",
+        "Сказать 'пока'",
+        "Сказать 'чмик'",
+        "Сказать 'обнял'"
+    ],
+    4: [
+        "Потрогать окно",
+        "Ударить нежно",
+        "Снять носок левый",
+        "Снять носок правый",
+        "Подышать свежем воздухом",
+        "Поцеловать",
+        "Посмотреть аниме на быстрой скорости",
+        "Почитать мангу",
+        "Сделать фигню в Геншине",
+        "Погладить котенка"
+    ],
+    5: [
+        "Погладить по голове",
+        "Погладить ногу",
+        "Почесать спину",
+        "Почесать лопатки",
+        "Почесать низ спины",
+        "Оторвать волос",
+        "Оторвать волос на ноге",
+        "Помурчать",
+        "Поспать",
+        "Полежать"
+    ],
+    6: [
+        "Погулять",
+        "Нарисовать стикмена за 1 секунду"
+    ]
+};
+
+// Функция для отображения опций в зависимости от цифры
+function showOptionsForNumber(number) {
+    if (!nickname) {
+        alert("Пожалуйста, сначала установите свой ник."); // Сообщение об ошибке
+        return; // Не показывать опции, если ник не установлен
+    }
+
+    sidePanel.innerHTML = ''; // Очистить предыдущие опции
+    const options = optionsMap[number];
+
+    if (!options) {
+        sidePanel.style.display = 'none'; // Скрываем панель, если опций нет
+        return;
+    }
+
+    sidePanel.style.display = 'block'; // Показать панель
+    options.forEach(option => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.style.display = 'block';
+        button.style.width = '100%';
+        button.style.marginTop = '5px';
+        button.style.padding = '10px';
+        button.style.borderRadius = '5px';
+        button.style.border = 'none';
+        button.style.cursor = 'pointer';
+        button.style.backgroundColor = '#b3d7ff';
+
+        // Обработчик выбора опции
+        button.addEventListener('click', () => {
+            addMessage(`${nickname}: ${option}`, 'user');
+            sidePanel.style.display = 'none'; // Скрыть панель после выбора
+        });
+
+        sidePanel.appendChild(button);
+    });
+}
+
+
+// Модифицировать функцию rollDice, чтобы показывать опции
+function rollDice() {
+    if (isRolling) return;
+    isRolling = true;
+    numberElement.textContent = "-";
+    resultElement.textContent = "Результат: ...";
+    let duration = 5000; // длительность анимации
+    let start = null;
+    const targetSide = Math.floor(Math.random() * 6) + 1;
+
+    function animateRoll(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        const t = progress / duration;
+
+        dice.rotation.x = Math.PI * 2 * t * 5 + Math.random();
+        dice.rotation.y = Math.PI * 2 * t * 5 + Math.random();
+
+        if (progress < duration) {
+            requestAnimationFrame(animateRoll);
+        } else {
+            setFinalRotation(targetSide);
+            resultElement.textContent = "Результат: " + targetSide;
+            numberElement.textContent = targetSide;
+            showOptionsForNumber(targetSide); // Показать опции для выпавшего числа
+            setTimeout(() => {
+                isRolling = false;
+            }, 5000);
+        }
+    }
+    requestAnimationFrame(animateRoll);
+}
+
+    </script>
+</body>
+</html>
