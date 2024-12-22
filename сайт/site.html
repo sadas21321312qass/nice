@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Главная дизайнерская студия по ретуши и фотошопу. Офисы в каждом городе. Бесплатная консультация.">
+    <meta name="keywords" content="фотошоп, ретушь, дизайнерская студия, дизайн, графика">
+    <meta name="author" content="Дизайнерская студия Photoshop">
+    <title>Главная дизайнерская студия по фотошопу</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #830081;
+            color: #fff;
+            padding: 1rem 0;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.5s;
+        }
+
+        header .logo {
+            font-size: 2vw;
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo img {
+            height: 1.5em;
+            margin-left: 10px;
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        header .nav-links li {
+            margin: 0 10px;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 1.2vw;
+            padding: 5px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        header .nav-links a:hover {
+            color: #e8491d;
+        }
+
+        header .nav-links li:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -26px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e8491d;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        header .nav-links li::after {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+
+
+
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeIn 1s forwards 2s;
+        }
+
+        .gallery-container {
+            flex: 1;
+            max-width: 24%;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+			    box-shadow: 0 0 10px rgb(0 0 0 / 20%);
+        }
+
+        .gallery {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+			width: calc(100% * 8);
+        }
+
+       /* Плавная анимация появления изображений */
+.gallery img {
+    width: 100%;
+    display: none; /* Скрываем все изображения */
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.gallery img.active {
+    display: block;
+    opacity: 1;
+    transform: scale(1); /* Плавное увеличение */
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) scale(1);
+    transform-origin: center; /* Центр трансформации */
+    background: white;
+    border: 2px solid #ff69b4; /* Розовая рамка */
+    color: #ff69b4;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+}
+
+.arrow.left-arrow {
+    left: 15px; /* Ближе к изображению */
+}
+
+.arrow.right-arrow {
+    right: 15px; /* Ближе к изображению */
+}
+
+.arrow:hover {
+    transform: translateY(-50%) scale(1.2); /* Увеличение равномерно по центру */
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* Розовое свечение */
+}
+
+
+        .gallery-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .gallery-controls button {
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .gallery-controls button:hover {
+            background: #e8491d;
+        }
+
+        .info-container {
+            flex: 1;
+            max-width: 100%;
+            padding: 2rem;
+            background: #f4f4f4;
+			margin-top: 20px;
+        }
+
+        .info-container section {
+            margin-bottom: 2rem;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .info-container section:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+          
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .info-container h1 {
+            margin: 1.5rem 0 1rem;
+            color: #35424a;
+        }
+
+        .info-container p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .telegram-btn {
+            display: flex;
+            align-items: center;
+            background-color: #0088cc;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .telegram-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #35424a;
+            color: #ffffff;
+        }
+
+        /* Модальное окно с предложением */
+        .modal {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: #e8491d;
+            padding: 20px;
+            border-radius: 10px;
+            color: #fff;
+            display: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            animation: slideIn 0.5s forwards;
+        }
+		
+		#about {
+    transition: transform 0.3s ease; /* Плавный эффект увеличения */
+}
+
+#about:hover {
+    transform: scale(1.2); /* Увеличение на 20% */
+}
+
+        .modal-header {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+		
+
+
+        .modal-btn {
+            background-color: #ffffff;
+            color: #e8491d;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .modal-btn:hover {
+            background-color: #e8491d;
+            color: #ffffff;
+        }
+
+        /* Анимация появления */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                bottom: -50px;
+                opacity: 0;
+            }
+            to {
+                bottom: 10px;
+                opacity: 1;
+            }
+        }
+
+        /* Эффект увеличения на hover */
+        .scale-effect:hover {
+            transform: scale(1.04);
+        }
+
+        /* Адаптивность */
+        @media screen and (max-width: 768px) {
+            header .nav-links {
+                
+                align-items: center;
+            }
+
+            .gallery-container,
+            .info-container {
+			
+                max-width: 100%;
+            }
+
+            .main-container {
+                flex-direction: column;
+            }
+
+            .info-container section {
+                padding: 1rem;
+            }
+        }
+		.telegram-btn {
+    display: inline-flex; /* Выравнивание содержимого */
+    align-items: center;
+    justify-content: center;
+    background-color: #0088cc; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 10px 20px;
+    border: 2px solid transparent; /* Прозрачная рамка по умолчанию */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: border-color 0.3s ease; /* Плавное изменение рамки */
+    max-width: 250px; /* Ограничиваем ширину */
+    box-sizing: border-box;
+    white-space: nowrap; /* Текст не переносится */
+    font-size: 16px; /* Исходный размер шрифта */
+    overflow: hidden; /* Убираем "растягивание" рамки */
+}
+
+.telegram-btn img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.telegram-btn span {
+    display: inline-block; /* Добавляем блочный элемент для текста */
+    transition: transform 0.3s ease, font-size 0.3s ease; /* Плавный эффект текста */
+}
+
+.telegram-btn:hover {
+    border-color: #005f99; /* Синяя рамка при наведении */
+}
+
+.telegram-btn:hover span {
+    transform: scale(1.1); /* Увеличение текста на 10% */
+    font-size: 17px; /* Легкое увеличение текста */
+}
+
+.telegram-btn:active span {
+    transform: scale(1); /* Возвращение к исходному при нажатии */
+}
+
+
+.typetext {
+    display: flex;
+    flex-direction: column; /* Растягиваем элементы вертикально */
+}
+
+.typetext span {
+    opacity: 0; /* Скрываем текст изначально */
+    transform: translateY(-20px); /* Начальная позиция, чуть выше */
+    transition: opacity 1s, transform 1s ease-out;
+    margin-bottom: 10px; /* Добавляем промежуток между строками */
+}
+
+.typetext span.show {
+    opacity: 1;
+    transform: translateY(0); /* Текст опускается на своё место */
+}
+
+.typetext span:nth-child(1) {
+    animation-delay: 0s; /* Первое появление без задержки */
+}
+
+.typetext span:nth-child(2) {
+    animation-delay: 2s; /* Второе появление через 2 секунды */
+}
+
+.typetext span:nth-child(3) {
+    animation-delay: 4s; /* Третье появление через 4 секунды */
+}
+
+.typetext span:nth-child(4) {
+    animation-delay: 6s; /* Четвёртое появление через 6 секунд */
+}
+
+header {
+    display: flex; /* Включаем flexbox */
+    align-items: center; /* Центрируем элементы по вертикали */
+}
+
+header {
+    display: flex; /* Включаем flexbox */
+    align-items: center; /* Центрируем элементы по вертикали */
+}
+
+header .logo-img {
+     /* Фиксированная ширина логотипа */
+    height: 100px; /* Фиксированная высота логотипа */
+    object-fit: contain; /* Сохраняет пропорции логотипа */
+    margin: 0; /* Убираем все внешние отступы */
+}
+
+header .logo-text {
+    margin: 0; /* Убираем все внешние отступы у текста */
+    padding: 0; /* Убираем внутренние отступы */
+}
+
+header .logo-container {
+    display: flex;
+    align-items: center; /* Центрируем логотип и текст */
+    gap: 10px; /* Максимальное расстояние между логотипом и текстом */
+}
+
+.nav-icon {
+    max-width: 40px;
+    max-height: 40px;
+    width: auto;
+    height: auto;
+}
+
+
+/* Волны с анимацией и округлёнными линиями   также тут сами волны хуй */
+#WAVES::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8, \
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"> \
+            <path d="M0,60 Q150,0 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="rgb(192, 125, 191)"/> \
+        </svg>') repeat-x; /* Ярко-розовый */
+    animation: waveRound 6s linear infinite;
+    z-index: -1;
+    opacity: 1;
+}
+#WAVES::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300%;
+    height: 100%;
+    background: url('data:image/svg+xml;utf8, \
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"> \
+            <path d="M0,60 Q150,0 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(185, 113, 185)"/> \
+        </svg>') repeat-x;
+    animation: waveRound 6s linear infinite;
+    z-index: -1;
+    opacity: 1;
+}
+
+#WAVES::after {
+    animation: waveRound 8s linear infinite reverse;
+    opacity: 1;
+    top: 10px;
+}
+
+/* Анимация волн */
+@keyframes waveRound {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* Основной хедер */
+#WAVES {
+    position: fixed; /* Хедер фиксированный */
+    width: 100%;
+    top: 0; /* Верхнее расположение */
+    z-index: 2; /* Гарантируем, что хедер выше всего */
+    background-color: #830081;
+    transition: all 0.3s ease; /* Плавная анимация при скролле */
+}
+
+/* Навигационные элементы с рамкой */
+#WAVES nav .nav-links a {
+    background-color: #ffffff;
+    color: #830081;
+    border: 2px solid #830081;
+    border-radius: 15px; /* Усиленное закругление углов */
+    padding: 5px 15px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+    padding-left: 30px; /* Увеличенное пространство для иконок */
+}
+
+/* Положение и размер иконок рядом с текстом */
+#WAVES nav .nav-links a .nav-icon {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px; /* Увеличение размера на 40% */
+    height: 24px; /* Увеличение размера на 40% */
+}
+
+/* Эффект при наведении */
+#WAVES nav .nav-links a:hover {
+    background-color: #830081;
+    color: #ffffff;
+    border-color: #830081;
+}
+
+/* Исключаем логотип из изменений */
+#WAVES .logo img,
+#WAVES .logo-text {
+    background: none;
+    border: none;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+/* Всплывающее окно с подсказкой */
+[data-tooltip] {
+    position: absolute;
+    z-index: 3;
+    
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Показываем подсказку */
+[data-tooltip]:hover {
+    opacity: 1;
+}
+
+/* Установка верного положения элементов ниже хедера */
+.main-container {
+    padding-top: 60px; /* Величина совпадает с высотой хедера */
+}
+
+/* Основное содержимое страницы */
+body {
+    margin: 0; /* Убираем стандартные отступы */
+    padding: 0;
+}
+
+main {
+    margin-top: 60px; /* Отступ сверху равен высоте хедера */
+    padding: 20px; /* Внутренний отступ для контента */
+    background-color: #f4f4f4; /* Цвет фона */
+}
+
+
+#about, #contact {
+    transition: transform 0.3s ease, font-size 0.3s ease; /* Плавное увеличение */
+}
+
+#about:hover, #contact:hover {
+    transform: scale(1.2); /* Увеличение на 20% */
+    font-size: 1.05em; /* Легкое увеличение шрифта */
+}
+
+
+
+/* Галерея с ограничением высоты и рамкой */
+.gallery-container {
+margin-top: 52px;
+    max-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+/* Эффект текста и иконки при наведении */
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+.gallery-container .overlay {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-container:hover .overlay {
+    opacity: 1;
+}
+
+.gallery-container .overlay img {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Центрирование кнопок */
+.gallery-controls button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    z-index: 2;
+}
+
+.gallery-controls button:hover {
+    background-color: #e8491d;
+}
+
+#prev {
+    left: 10px;
+}
+
+#next {
+    right: 10px;
+}
+
+/* Полноэкранный режим */
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.fullscreen img {
+    max-width: 90%;
+    max-height: 90%;
+}
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: center;
+    background: white;
+    border: 2px solid #ff69b4; /* Розовая рамка */
+    color: #ff69b4;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 10;
+}
+
+.arrow.left-arrow {
+    left: 15px; /* Левая стрелка ближе к изображению */
+}
+
+.arrow.right-arrow {
+    right: 15px; /* Правая стрелка ближе к изображению */
+}
+
+.arrow:hover {
+    transform: translateY(-50%) scale(1.2); /* Увеличение равномерно по центру */
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* Розовое свечение */
+}
+
+
+/* Подсказка-облачко */
+.tooltip {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 105, 180, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.tooltip .tooltip-close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+ .tooltip-close1 {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+
+
+
+.wave1 { 
+margin-top:36px;
+    position: fixed;
+    width: 100%;
+    max-height: 140px; /* Высота волны */
+   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 60" preserveAspectRatio="none"><rect width="1200" height="12" y="48" fill="%23b971b9"/><path d="M0,24 Q300,48 600,24 T1200,24 L1200,48 L0,48 Z" fill="%23b971b9"/></svg>') no-repeat;
+
+    background-size: 100% auto; /* Адаптивный размер */
+    background-position: center;
+    z-index: 1;
+    transform: rotateX(180deg); /* Отражение волны по вертикали */
+	transition: height 0.5s ease-out, opacity 0.5s ease-out; /* Плавная анимация изменения высоты и скрытия */
+	 pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .wave1 {
+        max-height: 100px; /* Уменьшение высоты волны для мобильных устройств */
+		margin-top:20px;
+		
+    }
+}
+
+
+.hidden-wave {
+    height: 0 !important; /* Прячем волну */
+    opacity: 0; /* Убираем прозрачность */
+}
+.fade-in {
+z-index:222222
+}
+
+.container header-container {
+z-index:222222
+}
+
+
+
+#about {
+
+z-index:222222
+
+}
+
+
+/* Для браузеров WebKit (Chrome, Edge, Safari) */
+body::-webkit-scrollbar {
+  width: 16px; /* Изначальная ширина полосы прокрутки */
+  height: 12px; /* Изначальная высота полосы прокрутки */
+  transition: width 0.3s ease, height 0.3s ease; /* Плавная анимация изменения размеров */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Цвет трека */
+  border-radius: 10px; /* Закруглённые углы трека */
+}
+
+/* Полоса прокрутки */
+body::-webkit-scrollbar-thumb {
+  background-color: #b971b9; /* Основной цвет полосы прокрутки */
+  border-radius: 10px; /* Закруглённые углы полосы */
+  border: 3px solid #f0f0f0; /* Пространство вокруг полосы */
+  transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease; /* Плавная анимация для полосы */
+}
+
+/* Увеличение ширины и высоты полосы прокрутки при наведении на область прокрутки */
+body::-webkit-scrollbar:hover {
+  width: 20px; /* Увеличение ширины */
+  height: 16px; /* Увеличение высоты */
+  transition: transform 0.3s ease, font-size 0.3s ease;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Увеличение полосы прокрутки и изменение цвета при наведении */
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #830081; /* Изменение цвета полосы */
+  transform: scale(1.2); /* Увеличение полосы прокрутки на 20% */
+  border-radius: 12px; /* Немного большие закруглённые углы */
+}
+
+/* Изменение цвета трека при наведении */
+body::-webkit-scrollbar-track:hover {
+  background: #e0e0e0; /* Изменение цвета трека */
+}
+
+
+
+    </style>
+    <script>
+    // Функция для закрытия блокирующего элемента
+        function closeBlocker() {
+            document.getElementById('blocker').style.display = 'none';
+            // Разрешаем пользователю покидать страницу после закрытия блока
+            window.onbeforeunload = null;
+        }
+
+        // Применяем событие onbeforeunload сразу при загрузке страницы
+        window.onload = function() {
+            // Ожидаем загрузки страницы, затем показываем блок
+            window.onbeforeunload = function() {
+                return "Вы уверены, что хотите покинуть страницу?";
+            };
+        };
+	
+	
+document.addEventListener('DOMContentLoaded', function () {
+  const wave = document.querySelector('.wave1');
+  wave.style.height = '200px';
+  wave.style.opacity = '1';
+});
+
+window.addEventListener('scroll', function () {
+  const wave = document.querySelector('.wave1');
+  const scrollY = window.scrollY; // Получаем количество прокрученных пикселей
+
+  // При прокрутке волна сплющивается и становится прозрачной
+  if (scrollY > 0) {
+    // Уменьшаем высоту волны пропорционально прокрутке
+    const newHeight = Math.max(0, 200 - scrollY * 0.8);  // Высота волны уменьшается быстро
+
+    // Рассчитываем степень прозрачности в зависимости от прокрутки
+    const newOpacity = Math.max(0, 1 - scrollY * 0.005);  // Прозрачность уменьшается с прокруткой
+
+    // Применяем новые значения
+    wave.style.height = `${newHeight}px`;  // Применяем новую высоту
+    wave.style.opacity = newOpacity;  // Применяем новую прозрачность
+  } else {
+    wave.style.height = '200px';  // Сбрасываем высоту волны, если находимся в верхней части страницы
+    wave.style.opacity = 1;  // Волна полностью видимая, если в верхней части
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	document.addEventListener('DOMContentLoaded', () => {
+    const gallery = document.querySelector('.gallery');
+    const images = document.querySelectorAll('.gallery img');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    let currentIndex = 0;
+
+    // Открытие полноэкранного режима
+    images.forEach((img, index) => {
+        img.addEventListener('click', () => openFullscreen(index));
+    });
+
+    function openFullscreen(index) {
+        currentIndex = index;
+        const fullscreenOverlay = document.createElement('div');
+        fullscreenOverlay.classList.add('fullscreen');
+        fullscreenOverlay.innerHTML = `
+            <img src="${images[currentIndex].src}" alt="Fullscreen">
+				 
+    <div class="tooltip" id="tooltip">
+        В разработке, возможно некоректное отоброжение, скоро исправим⭐.
+        <span class="tooltip-close1"></span>
+    </div>
+            <button id="fs-prev" class="arrow left-arrow">&#10094;</button>
+            <button id="fs-next" class="arrow right-arrow">&#10095;</button>
+        `;
+        document.body.appendChild(fullscreenOverlay);
+
+        // Навигация внутри полноэкранного режима
+        document.getElementById('fs-prev').addEventListener('click', () => navigateFullscreen(-1));
+        document.getElementById('fs-next').addEventListener('click', () => navigateFullscreen(1));
+
+        fullscreenOverlay.addEventListener('click', (e) => {
+            if (e.target === fullscreenOverlay) fullscreenOverlay.remove();
+        });
+    }
+
+    function navigateFullscreen(direction) {
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+        document.querySelector('.fullscreen img').src = images[currentIndex].src;
+    }
+
+    // Листание стрелками и это розовыес стрелки мда 
+	
+	
+	
+    prevButton.addEventListener('click', () => navigateGallery(-0,5));
+    nextButton.addEventListener('click', () => navigateGallery(0,5));
+
+    function navigateGallery(direction) {
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+       const galleryWidth = gallery.offsetWidth;
+gallery.style.transform = `translateX(-${currentIndex * galleryWidth}px)`;
+
+    }
+
+
+let autoScrollInterval; // Переменная для хранения ID интервала
+let autoScrollTimeout;  // Переменная для хранения таймаута
+const AUTO_SCROLL_DELAY = 2000; // 4 секунды
+
+prevButton.addEventListener('click', () => {
+    resetAutoScroll();
+    navigateGallery(-1);
+});
+
+nextButton.addEventListener('click', () => {
+    resetAutoScroll();
+    navigateGallery(1);
+});
+
+function navigateGallery(direction) { 
+    const nextIndex = (currentIndex + direction + images.length) % images.length;
+
+    // Если следующий индекс совпадает с текущим, пропускаем изменение
+    if (nextIndex === currentIndex) {
+        return;
+    }
+
+    // Обновляем текущий индекс и перемещаем галерею
+    currentIndex = nextIndex;
+    gallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+// Функция для автоматического клика на nextButton
+function startAutoScroll() {
+    autoScrollInterval = setInterval(() => {
+        nextButton.click();
+    }, AUTO_SCROLL_DELAY);
+}
+
+// Функция для сброса автоматической прокрутки
+function resetAutoScroll() {
+    clearInterval(autoScrollInterval); // Останавливаем текущий авто-прокрут
+    clearTimeout(autoScrollTimeout);  // Очищаем предыдущий таймаут
+
+    // Устанавливаем новый таймаут, после которого авто-прокрутка возобновится
+    autoScrollTimeout = setTimeout(() => {
+        startAutoScroll();
+    }, AUTO_SCROLL_DELAY);
+}
+
+// Запуск автоматической прокрутки
+startAutoScroll();
+
+
+
+
+
+    // Поддержка свайпа
+    let startX = 0;
+    gallery.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
+    gallery.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        if (startX - endX > 50) navigateGallery(1); // Свайп вправо
+        if (endX - startX > 50) navigateGallery(-1); // Свайп влево
+    });
+});
+
+
+
+	
+	document.addEventListener("DOMContentLoaded", () => {
+    const sections = ["about", "contact"]; // Массив с ID секций
+
+    sections.forEach((id) => {
+        const section = document.getElementById(id);
+
+        section.addEventListener("mouseenter", () => {
+            // Условие: Эффект работает только при ширине экрана больше 768px
+            if (window.innerWidth > 768) {
+                section.style.transform = "scale(1.2)";
+                section.style.fontSize = "1.05em";
+            }
+        });
+
+        section.addEventListener("mouseleave", () => {
+            section.style.transform = "scale(1)";
+            section.style.fontSize = "1em";
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+    const aboutSection = document.getElementById("about");
+
+    aboutSection.addEventListener("mouseenter", () => {
+        // Условие: например, выполняется только если ширина окна больше 768px
+        if (window.innerWidth > 768) {
+            aboutSection.style.transform = "scale(1.1)";
+            aboutSection.style.fontSize = "1.05em";
+        }
+    });
+
+    aboutSection.addEventListener("mouseleave", () => {
+        aboutSection.style.transform = "scale(1)";
+        aboutSection.style.fontSize = "1em";
+    });
+});
+
+	document.addEventListener('DOMContentLoaded', () => {
+    // Делаем задержку в 2 секунды перед началом анимации
+    setTimeout(() => {
+        const spans = document.querySelectorAll('.typetext span');
+        spans.forEach((span, index) => {
+            setTimeout(() => {
+                span.classList.add('show'); // Добавляем класс для анимации
+            }, index * 1000); // Каждый элемент появляется через 1 секунду после предыдущего
+        });
+    }, 2000); // Задержка в 2 секунды перед началом анимации
+});
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Модальное окно с предложением
+            setTimeout(() => {
+                document.querySelector('.modal').style.display = 'block';
+            }, 500);
+
+            // Закрытие модального окна
+            document.querySelector('.close-btn').addEventListener('click', () => {
+                document.querySelector('.modal').style.display = 'none';
+            });
+
+            // Эффект появления элементов
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }, index * 300);  // Задержка для каждого элемента
+            });
+        });
+		
+		document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.gallery img');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+    let currentIndex = 0;
+
+    images[currentIndex].classList.add('active'); // Показываем первое изображение
+
+    // Листание назад
+    prevButton.addEventListener('click', () => {
+        changeImage(-1);
+    });
+
+    // Листание вперёд
+    nextButton.addEventListener('click', () => {
+        changeImage(1);
+    });
+
+    function changeImage(direction) {
+        images[currentIndex].classList.remove('active'); // Убираем текущее изображение
+        currentIndex = (currentIndex + direction + images.length) % images.length;
+        images[currentIndex].classList.add('active'); // Показываем следующее изображение
+    }
+});
+
+
+    // Функция для перехода на предыдущее изображение
+    function prevImage() {
+        if (currentIndex > 0) {
+            showImage(currentIndex - 1);
+        } else {
+            showImage(imageCount - 1); // Переход к последнему изображению
+        }
+    }
+
+    // Автоматическая прокрутка
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            nextImage();
+        }, 4000); // Интервал 4 секунды
+    }
+
+    // Остановка автоматической прокрутки
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+
+    // Сброс автоматической прокрутки при ручном листании
+    function resetAutoSlide() {
+        stopAutoSlide();
+        isManual = true;
+        setTimeout(() => {
+            isManual = false;
+            startAutoSlide();
+        }, 4000); // Возобновление через 4 секунды
+    }
+
+    // Обработчики кнопок
+    nextButton.addEventListener('click', () => {
+        nextImage();
+        resetAutoSlide();
+    });
+
+    prevButton.addEventListener('click', () => {
+        prevImage();
+        resetAutoSlide();
+    });
+
+    // Запуск автоматической прокрутки при загрузке
+    startAutoSlide();
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modalHTML = `
+    <div id="order-modal" style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 400px;
+      background: #d35400; /* Более тёмный оранжевый */
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 1000;
+      overflow: hidden;
+    ">
+      <h2 style="margin-bottom: 15px;">Сделать заказ</h2>
+      <label for="name" style="display: block; margin-bottom: 5px;">Ваше имя:</label>
+      <input id="name" type="text" style="
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;">
+      <label for="task" style="display: block; margin-bottom: 5px;">Что нужно сделать:</label>
+      <textarea id="task" style="
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;
+        resize: none;
+        overflow: hidden;"></textarea>
+      <button id="send-order" style="
+        width: 100%;
+        padding: 10px;
+        background: white;
+        color: #d35400;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;">
+        <img src="l2.png" alt="Лого" style="width: 24px; height: 24px; margin-right: 10px;">
+        <span>Отправить</span>
+      </button>
+      <button class="send-immediately" style="
+        width: 100%;
+        padding: 10px;
+        background: white;
+        color: #d35400;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        margin-top: 10px;">
+        <img src="l2.png" alt="Лого" style="width: 24px; height: 24px; margin-right: 10px;">
+        <span>Отправить сразу</span>
+      </button>
+    </div>
+    <div id="overlay" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;"></div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+  const modal = document.getElementById("order-modal");
+  const overlay = document.getElementById("overlay");
+  const sendOrderBtn = document.getElementById("send-order");
+  const sendImmediatelyBtn = document.querySelector(".send-immediately");
+  const taskInput = document.getElementById("task");
+  const orderBtn = document.querySelector(".order-btn"); // Кнопка, которая открывает модальное окно
+
+  // Настройка текстового поля для авторасширения
+  taskInput.addEventListener("input", () => {
+    taskInput.style.height = "auto";
+    taskInput.style.height = `${taskInput.scrollHeight}px`;
+  });
+
+  // Функция для открытия модального окна
+  function openModal() {
+    document.body.style.overflow = "hidden";
+    modal.style.display = "block";
+    overlay.style.display = "block";
+    modal.style.animation = "modalOpen 0.25s ease-out";
+  }
+
+  // Функция для закрытия модального окна
+  function closeModal() {
+    document.body.style.overflow = "auto";
+    modal.style.animation = "modalClose 0.25s ease-out";
+    setTimeout(() => {
+      modal.style.display = "none";
+      overlay.style.display = "none";
+    }, 250);
+  }
+
+  // Обработчик события для кнопки "Сделать заказ"
+  orderBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+
+  // Закрытие модального окна при клике на затемнение
+  overlay.addEventListener("click", closeModal);
+
+  // Логика отправки заказа
+  sendOrderBtn.addEventListener("click", () => {
+    const name = document.getElementById("name").value.trim();
+    const task = document.getElementById("task").value.trim();
+
+    if (name && task) {
+      const message = `Имя: ${name}\nЗадача: ${task}`;
+      const telegramLink = `https://t.me/share/url?url=&text=${encodeURIComponent(
+        message
+      )}`;
+      window.open(telegramLink, "_blank");
+      closeModal();
+    } else {
+      alert("Пожалуйста, заполните все поля.");
+    }
+  });
+
+  // Логика мгновенной отправки
+  sendImmediatelyBtn.addEventListener("click", () => {
+    const name = document.getElementById("name").value.trim();
+    const task = document.getElementById("task").value.trim();
+    const message = `Имя: ${name}\nЗадача: ${task}`;
+    const telegramLink = `https://t.me/share/url?url=&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(telegramLink, "_blank");
+    closeModal();
+  });
+});
+
+// Добавление CSS для анимации
+const style = document.createElement("style");
+style.innerHTML = `
+  @keyframes modalOpen {
+    0% {
+      transform: translate(-50%, -50%) scale(0.1);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes modalClose {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(0.1);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+
+
+    </script>
+</head>
+<body>
+   <header class="fade-in" id ="WAVES">
+    <div class="container header-container">
+        <div class="logo">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <span class="logo-text">Photoshop Studio</span>
+        </div>
+        <nav>
+           <ul class="nav-links">
+    <li data-tooltip="Перейти на главную">
+        <a href="#main" class="fade-in">
+            <img src="home.png" alt="Главная" class="nav-icon"> Главная
+        </a>
+    </li>
+    <li data-tooltip="Узнать о нас">
+        <a href="#about" class="fade-in">
+            <img src="onas.png" alt="О нас" class="nav-icon"> О нас
+        </a>
+    </li>
+    <li data-tooltip="Посмотреть контакты">
+        <a href="#contact" class="fade-in">
+            <img src="kontakti.png" alt="Контакты" class="nav-icon"> Контакты
+        </a>
+    </li>
+    <li data-tooltip="Сделай заказ прямо сейчас! Консультация бесплатна!">
+        <a href="#contact" class="order-btn fade-in">
+            <img src="zz.png" alt="Сделать заказ" class="nav-icon"> Сделать заказ
+        </a>
+    </li>
+</ul>
+        </nav>
+    </div>
+</header>
+<div class="wave1"></div>
+
+    <main id="main" class="main-container">
+        <div class="gallery-container">
+            <div class="gallery">
+                <img src="y1.png" alt="Ретушь до/после" class="active">
+                <img src="y2.png" alt="Ретушь до/после">
+                <img src="y3.png" alt="Ретушь до/после">
+                <img src="y4.png" alt="Ретушь до/после">
+                <img src="y5.png" alt="Ретушь до/после">
+                <img src="y6.png" alt="Ретушь до/после">
+                <img src="y7.png" alt="Ретушь до/после">
+                <img src="y8.png" alt="Ретушь до/после">
+            </div>
+			 <!-- Подсказка -->
+    <div class="tooltip" id="tooltip">
+        Листай фото по стрелочкам или свайпом
+        <span class="tooltip-close" onclick="document.getElementById('tooltip').style.display='none'">×</span>
+    </div>
+
+    <!-- Стрелки -->
+    <button id="prev" class="arrow left-arrow">&#10094;</button>
+    <button id="next" class="arrow right-arrow">&#10095;</button>
+</div>
+            <div class="gallery-controls">
+         
+            </div>
+
+        </div>
+
+        <div class="info-container">
+            <section id="about" class="about fade-in">
+                <h1>О нас</h1>
+                <p class="typetext">
+                   <span>Мы — главная дизайнерская студия, предоставляющая услуги по ретуши и фотошопу.</span>
+    <span>С нами вы получите профессиональный подход к обработке фотографий, улучшению их качества и созданию уникальных образов.</span>
+    <span>Наши услуги доступны для клиентов по всей России, и мы гарантируем, что каждая деталь вашей фотографии будет проработана с учетом ваших пожеланий.</span>
+    <span>Работаем со всеми задачами, включая фотошоп, ретушь, дизайн.</span>
+	<span>Наши услуги доступны для клиентов по всему миру, и мы гарантируем, 
+                    что каждая деталь вашей фотографии будет проработана с учетом ваших пожеланий.</span>
+                </p>
+                
+            </section>
+
+            <section id="contact" class="contact fade-in">
+                <h1>Контакты</h1>
+                <p>Свяжитесь с нами через Telegram нажав на кнопку, вас переведет на лучших наших мастеров!:</p>
+               <a href="https://t.me/sadsdad" class="telegram-btn fade-in" target="_blank">
+    <img src="l2.png" alt="Telegram"> <span>Наш Telegram</span>
+</a>
+            </section>
+			
+			
+			
+			<section id="contact" class="contact fade-in">
+                <h1>Чем мы занимаемся?</h1>
+                <p>Мы активно занимаемся дизайном, фотошопом, ретушью....(дополнить)
+				также занимаемся видеомонтажем</p>
+               <a href="https://t.me/sadsdad" class="telegram-btn fade-in" target="_blank">
+    <img src="l2.png" alt="Telegram"> <span>Наш Telegram</span>
+</a>
+            </section>
+			
+			<section id="contact" class="contact fade-in">
+                <h1>Чем мы занимаемся?</h1>
+                <p>Мы активно занимаемся дизайном, фотошопом, ретушью....(дополнить)
+				</p>
+               <a href="https://t.me/sadsdad" class="telegram-btn fade-in" target="_blank">
+    <img src="l2.png" alt="Telegram"> <span>Наш Telegram</span>
+</a>
+            </section>
+        </div>
+    </main>
+
+    <!-- Модальное окно с предложением -->
+    <div class="modal fade-in">
+        <div class="modal-header">
+            Специальное предложение!
+        </div>
+        <p>Скидка 50% на первый заказ услуги!</p>
+        <button class="modal-btn" onclick="window.location.href='#contact'">Получить скидку</button>
+        <span class="close-btn">&times;</span>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Photoshop Studio. Все права защищены.</p>
+    </footer>
+
+    <script>
+	
+	
+
+
+</script>
+
+    </script>
+</body>
+</html>
